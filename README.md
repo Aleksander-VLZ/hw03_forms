@@ -1,3 +1,34 @@
-# backend_community_homework
+# yatube_project
 
-[![CI](https://github.com/yandex-praktikum/hw03_forms/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw03_forms/actions/workflows/python-app.yml)
+## Описание
+
+«Социальная сеть блогеров»
+
+### Особенности
+
+- Социальная сеть для публикации личных дневников
+- Создание личной страницы с уникальным именем и адресом
+- Просмотр страниц других пользователей, подписка, комментирование записей
+- Блокирование пользователей присылающих спам
+- Отправка записей в сообщество
+- Просмотр записей других пользователей в сообществах
+
+### Технологии
+
+Python 3.7
+Django 2.2.19
+
+### Запуск проекта в dev-режиме
+
+- Установите и активируйте виртуальное окружение
+- Установите зависимости из файла requirements.txt
+
+pip install -r requirements.txt
+
+- В папке с файлом manage.py выполните команду:
+
+python3 manage.py runserver
+
+### Автор
+
+Ратушнюк Александр
