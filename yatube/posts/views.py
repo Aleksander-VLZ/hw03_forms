@@ -34,10 +34,9 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
-    # Здесь код запроса к модели и создание словаря контекста
     user = User.objects.get(username=username)
-    users_posts = Post.objects.all().filter(author=user)
-    post_count = Post.objects.all().filter(author=user).count
+    users_posts = Post.objects.filter(author=user)
+    post_count = users_posts.count()
     paginator = Paginator(users_posts, LAST_POSTS)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -45,6 +44,7 @@ def profile(request, username):
         'user': user,
         'post_count': post_count,
         'page_obj': page_obj,
+        'author': user,
     }
     return render(request, 'posts/profile.html', context)
 
@@ -81,27 +81,27 @@ def post_create(request):
 
 @login_required
 def post_edit(request, post_id):
-    template = 'posts/create_post.html'
     post = get_object_or_404(Post, id=post_id)
-    user = request.user
-    user_name = user.get_username()
-    is_edit = True
+    form = PostForm(request.POST or None, instance=post)
 
-    if request.method == "GET":
-        form = PostForm()
-        if user_name != post.author.username:
-            return redirect('posts:post_detail', post_id)
-    elif request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+    if request.method == 'GET':
+        if request.user == post.author:
+            return render(
+                request,
+                'posts/create_post.html',
+                {
+                    'form': form,
+                    'is_edit': True,
+                    'post': post
+                }
+            )
+        return redirect('posts:post_detail', post_id=post.id)
+    if request.method == 'POST':
+        form = PostForm(
+            request.POST,
+            files=request.FILES or None,
+            instance=post
+        )
         if form.is_valid():
-            form.save(commit=False).author_id = request.user
             form.save()
-            return redirect('posts:profile', user)
-        return render(request, template, {'form': form})
-    
-    context = {
-        'post': post,
-        'is_edit': is_edit,
-        'form': form,
-        }
-    return render(request, template, context)
+        return redirect('posts:post_detail', post_id=post.id)

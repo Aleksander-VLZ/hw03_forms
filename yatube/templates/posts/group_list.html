@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
   {% block title %}
-    Лев Толстой – зеркало русской революции {{ group.title }}
-  {% endblock %} 
+    {{ group.title }}
+  {% endblock %}
   {% block content %}
-    <h1>Записи сообщества: {{ group }}</h1>
-    <p>Группа тайных поклонников графа</p>
+    <h1>{{ group.title }}</h1>
+    <p>{{ group.description }}</p>
     {% for post in page_obj %}
 <article>
       <ul>

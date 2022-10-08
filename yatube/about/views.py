@@ -8,6 +8,7 @@ class AboutAuthorView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
+
 class AboutTechView(TemplateView):
     template_name = 'about/tech.html'
 
