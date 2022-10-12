@@ -25,7 +25,7 @@ class Group(models.Model):  # наследник класса Model из мод�
 
 
 class Post(models.Model):  # наследник класса Model из модуля models
-    text = models.TextField()
+    text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         User,
@@ -37,7 +37,8 @@ class Post(models.Model):  # наследник класса Model из моду
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name="posts"
+        related_name="posts",
+        verbose_name='Группа'
     )
 
     def __str__(self) -> str:
