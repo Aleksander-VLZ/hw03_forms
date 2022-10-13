@@ -26,11 +26,15 @@ class Group(models.Model):  # наследник класса Model из мод�
 
 class Post(models.Model):  # наследник класса Model из модуля models
     text = models.TextField(verbose_name='Текст')
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата публикации'
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="posts"
+        related_name="posts",
+        verbose_name='Автор статьи'
     )
     group = models.ForeignKey(
         Group,
@@ -43,7 +47,7 @@ class Post(models.Model):  # наследник класса Model из моду
 
     def __str__(self) -> str:
         # выводим текст поста
-        return self.text
+        return self.text[:15]
 
     class Meta:
         ordering = ['-pub_date']

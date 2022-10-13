@@ -53,9 +53,7 @@ def post_create(request):
             return redirect('posts:profile', username=post.author)
         return render(request, 'posts/create_post.html', {'form': form})
     form = PostForm()
-    groups = Group.objects.all()
     context = {
-        'groups': groups,
         'form': form,
     }
     return render(request, 'posts/create_post.html', context)
@@ -68,7 +66,6 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post_id)
     form = PostForm(
         request.POST or None,
-        files=request.FILES or None,
         instance=post
     )
     if form.is_valid():
@@ -80,6 +77,5 @@ def post_edit(request, post_id):
         'form': form,
         'is_edit': True,
         'post': post,
-        'post_id': post_id,
     }
     return render(request, 'posts/create_post.html', context)
